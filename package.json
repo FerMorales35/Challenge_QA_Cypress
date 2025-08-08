@@ -1,0 +1,27 @@
+{
+  "name": "challenge_qa",
+  "version": "1.0.0",
+  "description": "Framework Testing Cypress  ",
+  "keywords": [
+    "e2e",
+    "automation",
+    "framework",
+    "cypress"
+  ],
+  "license": "ISC",
+  "author": "Fernando Morales",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "cypress:open": "cypress open",
+    "test:login": "cypress run --spec 'cypress/e2e/ui/login.spec.cy.js' --browser chrome",
+    "test:Cart": "cypress run --spec 'cypress/e2e/ui/shopping_cart.spec.cy.js' --browser chrome",
+    "test:Api": "cypress run --spec 'cypress/e2e/api/api_mercadolibre.spec.cy.js' --browser chrome"
+
+  },
+  "devDependencies": {
+    "cypress": "^14.5.3",
+    "cypress-mochawesome-reporter": "^3.8.4"
+  }
+}
