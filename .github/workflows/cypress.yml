@@ -1,47 +1,63 @@
-name: CI - Cypress + Mochawesome
+name: Cypress + Mochawesome (merge & HTML)
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
 
 jobs:
-  e2e:
-    runs-on: ubuntu-24.04
+  cypress-run:
+    runs-on: ubuntu-latest
 
     steps:
+      # 1. Clonar el repo
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      # 2. Instalar Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
 
-      - name: Install deps (lockfile)
+      # 3. Instalar dependencias
+      - name: Install dependencies
         run: npm ci
 
-      # Corre Cypress (si falla, igual seguimos para generar el reporte)
-      - name: Run Cypress
-        run: npm run test:ci
-        continue-on-error: true
+      # 4. Ejecutar pruebas con Cypress
+      - name: Run Cypress tests
+        run: |
+          mkdir -p cypress/reports
+          npx cypress run --browser chrome
 
-      # Une JSONs y genera el HTML, incluso si fallaron tests
+      # 5. Merge Mochawesome JSON
       - name: Merge Mochawesome JSON
         if: always()
-        run: npm run report:merge
+        run: |
+          mkdir -p cypress/reports
+          if ls cypress/reports/*.json 1> /dev/null 2>&1; then
+            npx mochawesome-merge cypress/reports/*.json > cypress/reports/report.json
+          else
+            echo "No Mochawesome JSON files found, skipping merge."
+          fi
 
+      # 6. Generar reporte HTML
       - name: Generate Mochawesome HTML
         if: always()
-        run: npm run report:generate
+        run: |
+          if [ -f cypress/reports/report.json ]; then
+            npx marge cypress/reports/report.json --reportDir cypress/reports --inline
+          else
+            echo "No report.json found, skipping HTML generation."
+          fi
 
-      # Sube videos, screenshots y el HTML final como artefactos
-      - name: Upload Cypress artifacts
+      # 7. Subir reporte como artefacto
+      - name: Upload test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-artifacts
-          path: |
-            cypress/screenshots
-            cypress/videos
-            cypress/reports
+          name: mochawesome-report
+          path: cypress/reports
