@@ -1,0 +1,47 @@
+name: CI - Cypress + Mochawesome
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps (lockfile)
+        run: npm ci
+
+      # Corre Cypress (si falla, igual seguimos para generar el reporte)
+      - name: Run Cypress
+        run: npm run test:ci
+        continue-on-error: true
+
+      # Une JSONs y genera el HTML, incluso si fallaron tests
+      - name: Merge Mochawesome JSON
+        if: always()
+        run: npm run report:merge
+
+      - name: Generate Mochawesome HTML
+        if: always()
+        run: npm run report:generate
+
+      # Sube videos, screenshots y el HTML final como artefactos
+      - name: Upload Cypress artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/reports

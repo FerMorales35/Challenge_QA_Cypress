@@ -17,11 +17,16 @@
     "cypress:open": "cypress open",
     "test:login": "cypress run --spec 'cypress/e2e/ui/login.spec.cy.js' --browser chrome",
     "test:Cart": "cypress run --spec 'cypress/e2e/ui/shopping_cart.spec.cy.js' --browser chrome",
-    "test:Api": "cypress run --spec 'cypress/e2e/api/api_mercadolibre.spec.cy.js' --browser chrome"
-
+    "test:Api": "cypress run --spec 'cypress/e2e/api/api_mercadolibre.spec.cy.js' --browser chrome",
+    "report:merge": "mochawesome-merge cypress/reports/*.json > cypress/reports/report.json",
+    "report:generate": "marge cypress/reports/report.json --reportDir cypress/reports --inline",
+    "report": "npm run report:merge && npm run report:generate"
   },
   "devDependencies": {
     "cypress": "^14.5.3",
-    "cypress-mochawesome-reporter": "^3.8.4"
+    "cypress-mochawesome-reporter": "^3.8.4",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.4.1",
+    "mochawesome-report-generator": "^6.2.0"
   }
 }
