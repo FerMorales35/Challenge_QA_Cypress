@@ -15,11 +15,11 @@ class login {
   clickLogin() {
     this.elements.loginBtn().should("be.enabled").click();
   }
-  validationMessageLockedUser(errorMessage) {
+  validationMessageLockedUser() {
     this.elements
       .messageLockedUser()
       .should("be.visible")
-      .and("have.text", "Epic sadface: Sorry, this user has been locked out."); // Hacé que uno de los casos de prueba falle intencionalmente (Quite el punto del mensaje que se muestra para forzar el fallo en el assert)
+      .and("have.text", "Epic sadface: Sorry, this user has been locked out.");
   }
 }
 

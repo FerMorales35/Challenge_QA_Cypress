@@ -1,81 +1,67 @@
-# Challenge_QA - Cypress Automation Framework
+# Cypress E2E – SauceDemo
 
-Automatización de pruebas end-to-end (UI + API) con Cypress.
+[![Cypress Tests](https://github.com/FerMorales35/Challenge_QA_Cypress/actions/workflows/cypress.yml/badge.svg)](https://github.com/FerMorales35/Challenge_QA_Cypress/actions/workflows/cypress.yml)
 
----
+Framework de automatización end-to-end (UI + API) con **Cypress + JavaScript**, aplicando **Page Object Model**, datos en fixtures, reportes HTML con **Mochawesome** y ejecución continua con **GitHub Actions**.
 
-## 🎯 Objetivo
+## 🎯 Alcance
 
-Este proyecto automatiza las pruebas end-to-end de la web [SauceDemo](https://www.saucedemo.com), cubriendo:
+Sitio bajo prueba: [SauceDemo](https://www.saucedemo.com)
 
-- Inicio de sesión
-- Gestión del carrito de compras
-- Validaciones de API de MercadoLibre
+| Módulo | Casos |
+|---|---|
+| Login | Login exitoso · Usuario bloqueado |
+| Carrito / Checkout | Compra completa · Eliminar producto del carrito |
+| API | Validación de respuesta y estructura (status 200, claves esperadas) |
 
----
+Documentación de QA en [`cypress/docs`](cypress/docs): casos de prueba y reporte de bug.
 
-## 🛠 Requisitos previos
+## 🧱 Estructura
 
-Antes de clonar el proyecto, asegurate de tener instalado:
+```
+cypress/
+├── e2e/
+│   ├── ui/          # Tests de interfaz (login, carrito)
+│   └── api/         # Tests de API
+├── pages/           # Page Objects
+├── fixtures/        # Datos de prueba
+├── support/         # Comandos y configuración global
+└── docs/            # Casos de prueba y reporte de bug
+.github/workflows/   # Pipeline de CI
+```
 
-- [Node.js](https://nodejs.org/) (versión 16 o superior)
-- [npm](https://www.npmjs.com/) (incluido con Node.js)
-- Git (para clonar el repositorio)
+## 🛠 Requisitos
 
----
+- Node.js 18 o superior
+- Git
 
 ## 🚀 Instalación
 
-1. Clonar el proyecto o copiar la carpeta:
-
-   ```bash
-   git clone <url-del-repo> && cd Challenge_QA
-   ```
-
-2. Instalar dependencias:
-   ```bash
-   npm install
-   ```
-
----
-
-## 🧪 Ejecutar pruebas
-
-1. ✅ Todas las pruebas (UI + API):
-   ```bash
-   npx cypress run
-   ```
-2. ✅ Ejecutar test específico:
-
-   ```bash
-   npm run test:login -> Casos de prueba sobre Login
-   npm run test:Cart -> Casos de prueba sobre carro de compras
-   npm run test:Api -> Caso de prueba sobre la Api de MercadoLibre
-   ```
-
-3. ✅ Ejecutar test desde interfaz de Cypress:
-   ```bash
-   npm run cypress:open
-   ```
-
----
-
-## 📸 Capturas de pantalla
-
-Cypress genera automáticamente capturas al fallar:
-
 ```bash
-cypress/screenshots/
+git clone https://github.com/FerMorales35/Challenge_QA_Cypress.git
+cd Challenge_QA_Cypress
+npm install
 ```
 
----
-
-## 📊 Reportes (HTML)
-
-Los reportes se generan en:
+## 🧪 Ejecución
 
 ```bash
-cypress/reports/
+npx cypress run          # Todos los tests (UI + API)
+npm run test:login       # Solo login
+npm run test:Cart        # Solo carrito y checkout
+npm run test:Api         # Solo API
+npm run cypress:open     # Modo interactivo
 ```
 
+## 📊 Reportes
+
+- Reporte HTML en `cypress/reports/` (también se publica como artefacto en cada ejecución del pipeline).
+- Capturas automáticas ante fallos en `cypress/screenshots/` y videos en `cypress/videos/`.
+
+## ⚙️ CI
+
+El workflow [`cypress.yml`](.github/workflows/cypress.yml) se ejecuta en cada push y pull request a `main`: instala dependencias, corre los tests en Chrome, genera el reporte Mochawesome y lo sube como artefacto.
+
 ---
+
+👤 **Fernando Sebastián Morales** – QA Automation Engineer · [LinkedIn](https://www.linkedin.com/in/fernando-sebasti%C3%A1n-morales-6ba86292/)
