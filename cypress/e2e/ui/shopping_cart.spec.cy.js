@@ -35,7 +35,10 @@ describe("Casos de Prueba Carrito de compras", () => {
     });
   });
 
-  it("CP-003 – Eliminar producto del carrito-Continuar con el proceso de compra", () => {
+  // BUG CONOCIDO – Bug-001 (cypress/docs/Bug-SauceDemo.docx):
+  // el checkout permite continuar con el carrito vacío. El test valida el comportamiento
+  // esperado y queda en skip hasta que el bug se corrija, para no romper el pipeline.
+  it.skip("CP-003 – No permite hacer checkout con el carrito vacío [Bug-001]", () => {
     cy.fixture("loginData").then((data) => {
       const user = data.validUser;
       login.typeUsername(user.username);

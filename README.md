@@ -11,8 +11,8 @@ Sitio bajo prueba: [SauceDemo](https://www.saucedemo.com)
 | Módulo | Casos |
 |---|---|
 | Login | Login exitoso · Usuario bloqueado |
-| Carrito / Checkout | Compra completa · Eliminar producto del carrito |
-| API | Validación de respuesta y estructura (status 200, claves esperadas) |
+| Carrito / Checkout | Compra completa · Checkout con carrito vacío (bug conocido, en skip) |
+| API (JSONPlaceholder) | GET listado · contrato de un recurso · POST · 404 |
 
 Documentación de QA en [`cypress/docs`](cypress/docs): casos de prueba y reporte de bug.
 
